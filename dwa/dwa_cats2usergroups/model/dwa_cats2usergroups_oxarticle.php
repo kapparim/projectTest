@@ -1,0 +1,20 @@
+<?php
+ /**
+  * OXID Modul:  DWA_cats2usergroups
+  * @version:    $Id: dwa_cats2usergroups_oxarticle.php 14762 2020-06-05 09:11:36Z oliver $
+  *
+  * Diese Datei darf nicht für andere Projekte oder andere Domains als vereinbart, verwendet oder veräußert werden.
+  *
+  * @link https://www.web-grips.de
+  * @copyright WEB-Grips
+  * @author WEB-Grips <info@web-grips.de>
+  */
+ class dwa_cats2usergroups_oxarticle extends dwa_cats2usergroups_oxarticle_parent {protected $_dwaGroups;protected $_dwaCats;public function load($oxID){$blRet = parent::load($oxID);if (!$this->isAdmin()&& (!$this->getUser()|| !$this->getUser()->dwaIsAdminUser())){if (!\OxidEsales\Eshop\Core\Registry::getConfig()->getConfigParam('dwa_cats2ug_articlesnotvisible')&& !$this->dwaIsPriceviewEnabled()){$this->_blNotBuyableParent = true;$this->_blNotBuyable = true;$this->_blLoadPrice = false;}elseif (\OxidEsales\Eshop\Core\Registry::getConfig()->getConfigParam('dwa_cats2ug_articlesnotvisible')&& !$this->dwaIsPriceviewEnabled()){$myConfig = \OxidEsales\Eshop\Core\Registry::getConfig();if ($myConfig->getActiveView()->getClassName()== 'details' && $oxID == $this->_sViewId){\OxidEsales\Eshop\Core\Registry::getUtils()->redirect($myConfig->getShopHomeURL());}return false;}}return $blRet;}public function assign($aRecord){parent::assign($aRecord);if (!$this->isAdmin()&& (!$this->getUser()|| !$this->getUser()->dwaIsAdminUser())){if (!\OxidEsales\Eshop\Core\Registry::getConfig()->getConfigParam('dwa_cats2ug_articlesnotvisible')&& !$this->dwaIsPriceviewEnabled()){$this->_blNotBuyableParent = true;$this->_blNotBuyable = true;$this->_blLoadPrice = false;}}}public function dwaIsPriceviewEnabled(){if ($this->getUser()&& $this->getUser()->dwaIsAdminUser()){return true;}if ($this->_dwaGroups === null ){if ($this->_dwaCats === null){$this->_dwaCats = $this->getCategoryIds(false, true);}if (!$this->_dwaCats){if (\OxidEsales\Eshop\Core\Registry::getConfig()->getConfigParam('dwa_cats2ug_showcatswithoutug')){return true;}else {return false;}}$this->_dwaGroups = oxNew(\OxidEsales\Eshop\Core\Model\ListModel::class, \OxidEsales\Eshop\Application\Model\Groups::class);$sViewName = getViewName("oxgroups", $this->getLanguage());foreach ($this->_dwaCats as &$item){$item = '"'.$item .'"';}$sSelect = 'select '.$sViewName .'.* from '.$sViewName .', oxobject2group
+                        where oxobject2group.oxgroupsid='.$sViewName .'.oxid
+                        and oxobject2group.oxobjectid IN ('. implode(', ', $this->_dwaCats).')';$this->_dwaGroups->selectString($sSelect );}if (!$this->_dwaGroups->count()){if (\OxidEsales\Eshop\Core\Registry::getConfig()->getConfigParam('dwa_cats2ug_showcatswithoutug')){return true;}else {return false;}}if (array_key_exists('dwanotloggedin', $this->_dwaGroups->getArray())){return true;}if ($oUser = $this->getUser()){foreach ($oUser->getUserGroups()as $oGroup ){if (array_key_exists($oGroup->getId(), $this->_dwaGroups->getArray())){return true;}}}}public function getSqlActiveSnippet($blForceCoreTable = null){$sQ = parent::getSqlActiveSnippet($blForceCoreTable);if (\OxidEsales\Eshop\Core\Registry::getConfig()->getConfigParam('dwa_cats2ug_articlesnotvisible')&& !$this->isAdmin()&& (!$this->getUser()|| !$this->getUser()->dwaIsAdminUser())){$sTable = $this->getViewName($blForceCoreTable );$oUser = oxNew(\OxidEsales\Eshop\Application\Model\User::class);$sQ = '('.$sQ .' AND EXISTS (
+                SELECT 1
+                FROM oxobject2category cat
+                LEFT JOIN oxobject2group gr ON gr.oxobjectid = cat.oxcatnid
+                WHERE '.$sTable .'.oxid = cat.oxobjectid
+                AND (gr.oxgroupsid IN ('.$oUser->dwaGetSqlUsergroupsSnippet('gr.oxgroupsid').')';if (\OxidEsales\Eshop\Core\Registry::getConfig()->getConfigParam('dwa_cats2ug_showcatswithoutug')){$sQ .= ' OR gr.oxgroupsid IS NULL ';}$sQ .= ')
+            ))';}return $sQ;}}

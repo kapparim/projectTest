@@ -1,0 +1,20 @@
+<?php
+ /**
+  * OXID Modul:  DWA_cats2usergroups
+  * @version:    $Id: metadata.php 14904 2020-07-03 07:42:51Z dayana $
+  *
+  * Diese Datei darf nicht für andere Projekte oder andere Domains als vereinbart, verwendet oder veräußert werden.
+  *
+  * @link https://www.web-grips.de
+  * @copyright WEB-Grips
+  * @author WEB-Grips <info@web-grips.de>
+  */
+ $sMetadataVersion = '1.2';$aModule = array('id' => 'dwa_cats2usergroups', 'title' => '<img src="../modules/dwa/web-grips.png" style="margin-top:-3px;float:left;margin-right:10px"><p style="margin-top:3px;margin-bottom:0"> Kategorien für Kundengruppen</p>', 'description' => array('de' => 'Kategorien und enthaltene Artikel sind nur für zugewiesene Benutzergruppen sichtbar bzw. kaufbar.
+                                        <p>Wählen Sie selbst, ob Benutzer, denen die Kategorie über die Benutzergruppe nicht zugewiesen wurde,</p>
+                                        <ul>
+                                            <li>die Kategorie und die in ihr enthaltenen Artikel nicht sehen oder</li>
+                                            <li>die in ihr enthaltenen Artikel nicht kaufen dürfen (keine Preise, kein Lagerbestand sichtbar).</li>
+                                        </ul>
+                                        <p>Mehr Infos dazu findest du in der Dokumentation.</p>
+                                        <hr>
+                                        <p><strong><a href="https://www.web-grips.de/newsletter" target="_blank">Unser WEB-Letter informiert über neue Module + Updates. Mehr erfahren &raquo;</a></strong></p>', ), 'thumbnail' => 'picture.png', 'version' => '4.00 (2020-07-03)', 'author' => 'WEB-Grips', 'url' => 'https://www.web-grips.de/shop/', 'email' => 'support@web-grips.de', 'files' => array('dwa_cats2usergroups_ajax' => 'dwa/dwa_cats2usergroups/controller/admin/dwa_cats2usergroups_ajax.php', 'dwa_usergroups2cats_ajax' => 'dwa/dwa_cats2usergroups/controller/admin/dwa_usergroups2cats_ajax.php', 'dwa_cats2usergroups_events' => 'dwa/dwa_cats2usergroups/core/dwa_cats2usergroups_events.php' ), 'extend' => array(\OxidEsales\Eshop\Application\Controller\Admin\CategoryMain::class => 'dwa/dwa_cats2usergroups/controller/admin/dwa_cats2usergroups_category_main', \OxidEsales\Eshop\Application\Controller\Admin\UserGroupMain::class => 'dwa/dwa_cats2usergroups/controller/admin/dwa_cats2usergroups_usergroups_main', \OxidEsales\Eshop\Application\Model\Article::class => 'dwa/dwa_cats2usergroups/model/dwa_cats2usergroups_oxarticle', \OxidEsales\Eshop\Application\Model\User::class => 'dwa/dwa_cats2usergroups/model/dwa_cats2usergroups_oxuser', \OxidEsales\Eshop\Application\Model\CategoryList::class => 'dwa/dwa_cats2usergroups/model/dwa_cats2usergroups_categorylist', \OxidEsales\Eshop\Application\Controller\ArticleListController::class => 'dwa/dwa_cats2usergroups/controller/dwa_cats2usergroups_alist', ), 'settings' => array(array('group' => 'dwa_cats2usergroups', 'name' => 'dwa_cats2ug_articlesnotvisible', 'type' => 'bool', 'value' => true), array('group' => 'dwa_cats2usergroups', 'name' => 'dwa_cats2ug_catsnotvisible', 'type' => 'bool', 'value' => true), array('group' => 'dwa_cats2usergroups', 'name' => 'dwa_cats2ug_hidestockstatus', 'type' => 'bool', 'value' => true), array('group' => 'dwa_cats2usergroups', 'name' => 'dwa_cats2ug_showcatswithoutug', 'type' => 'bool', 'value' => true), ), 'blocks' => array(array('template' => 'page/details/inc/productmain.tpl', 'block' => 'details_productmain_stockstatus', 'file' => '/out/blocks/stockstatus.tpl'), array('template' => 'widget/product/bargainitems.tpl', 'block' => 'widget_product_bargainitem_tobasket', 'file' => '/out/blocks/bargainitem.tpl'), ), 'templates' => array('dwa_cats2usergroups_ajax.tpl' => 'dwa/dwa_cats2usergroups/out/admin/tpl/dwa_cats2usergroups_ajax.tpl', 'dwa_usergroups2cats_ajax.tpl' => 'dwa/dwa_cats2usergroups/out/admin/tpl/dwa_usergroups2cats_ajax.tpl', ), 'events' => array('onActivate' => 'dwa_cats2usergroups_events::onActivate'), );

@@ -1,0 +1,7 @@
+[{if empty($oDetailsProduct)}]
+    [{assign var=oDetailsProduct value=$oView->getProduct()}]
+[{/if}]
+[{assign var=myConfig value=$oView->getConfig()}]
+[{if $oDetailsProduct->isBuyable() || !$myConfig->getConfigParam('dwa_cats2ug_hidestockstatus')}]
+    [{$smarty.block.parent}]
+[{/if}]
