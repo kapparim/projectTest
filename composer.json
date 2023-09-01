@@ -5,6 +5,9 @@
     "keywords": ["groups","categorie","article"],
     "homepage": "https://cordo.paris",
     "license": "MIT",
+    "config": {
+    "minimum-stability": "1.0"
+}
     "authors": [
         {
             "name": "Karim El",
