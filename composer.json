@@ -1,18 +1,8 @@
 {
-    "name": "cordo/project",
-    "type": "library",
-    "description": "Oxidshop module",
-    "keywords": ["groups","categorie","article"],
-    "homepage": "https://cordo.paris",
-    "license": "MIT",
-    "config": {
-    "minimum-stability": "1.0"
-              },
-    "authors": [
-        {
-            "name": "Karim El",
-            "email": "karim9807@gmail.com",
-            "role": "Developer"
-        }
-    ]
+    "name": "vendor/dwa",
+    "description": "Categories group for Oxid",
+    "require": {
+        "php": ">=7.4",
+        "vendor/package": "1.*"
+    }
 }
